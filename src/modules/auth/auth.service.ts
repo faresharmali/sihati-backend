@@ -1,19 +1,40 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { userDto, DoctorDto } from './auth.dto';
+import { userDto, DoctorDto, LoginDto } from './auth.dto';
 import * as argon from 'argon2';
-import { ErrorHandler } from 'src/lib/errorHandler';
 import { UserRole } from 'src/types';
 
 @Injectable({})
 export class AuthService {
   constructor(private prisma: PrismaService) {}
-  SignIn(body: userDto) {
-    return { msg: 'hello' };
+
+  // login
+  async SignIn(body: LoginDto) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          email: body.email,
+        },
+      });
+      if (!user) {
+        throw new ForbiddenException('User not found');
+      }
+      const passwordMatch = await argon.verify(user.password, body.password);
+      if (!passwordMatch) {
+        throw new ForbiddenException('Wrong password');
+      }
+      return user;
+    } catch (error) {
+      throw error;
+    }
   }
+
   async signOut() {
     return 'signOut';
   }
+
+  // Register doctors
+
   async signUpDoctor(body: DoctorDto) {
     const hashedPassword = await argon.hash(body.password);
     try {
@@ -44,6 +65,9 @@ export class AuthService {
       }
     }
   }
+
+  // Register patients
+
   async signUpPatient(body: userDto) {
     const hashedPassword = await argon.hash(body.password);
     try {

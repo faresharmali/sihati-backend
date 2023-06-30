@@ -24,3 +24,13 @@ export class DoctorDto extends userDto {
   @IsNotEmpty()
   specialization: string;
 }
+
+export class LoginDto {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  password: string;
+}
