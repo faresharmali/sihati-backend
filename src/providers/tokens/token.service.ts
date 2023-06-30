@@ -5,9 +5,9 @@ import { Injectable } from '@nestjs/common';
 export class TokenService {
   constructor(private jwt: JwtService) {}
 
-  async signToken(identifier: string, role: string) {
+  async signToken(id: string, role: string) {
     const payload = {
-      sub: identifier,
+      id: id,
       role: role,
     };
     return this.jwt.signAsync(payload, { expiresIn: '15m' });

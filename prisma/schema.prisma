@@ -12,19 +12,19 @@ datasource db {
 
 model User {
   id         Bytes    @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String   @default(uuid())
+  identifier String   @unique @default(uuid())
   name       String
   email      String   @unique
   password   String
   role       String
   phone      String   @unique
   createdAt  DateTime @default(now())
-  Doctor     Doctor[]
+  Doctor     Doctor?
 }
 
 model Doctor {
   id             Bytes    @id @default(auto()) @map("_id") @db.ObjectId
-  userId         Bytes    @db.ObjectId
+  userId         Bytes    @unique @db.ObjectId
   user           User     @relation(fields: [userId], references: [id])
   address        String
   specialization String

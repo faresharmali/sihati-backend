@@ -63,6 +63,7 @@ export class AuthService {
 
       return { user, doctor };
     } catch (error) {
+      console.log('error', error);
       if (error.code === 'P2002') {
         throw new ForbiddenException('Email already exists');
       } else {
