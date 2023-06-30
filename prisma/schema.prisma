@@ -14,9 +14,10 @@ model User {
   id         Bytes    @id @default(auto()) @map("_id") @db.ObjectId
   identifier String   @default(uuid())
   name       String
-  email      String   @unique @map("email")
+  email      String   @unique
   password   String
   role       String
+  phone      String   @unique
   createdAt  DateTime @default(now())
   Doctor     Doctor[]
 }
