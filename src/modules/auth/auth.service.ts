@@ -3,10 +3,14 @@ import { PrismaService } from '../prisma/prisma.service';
 import { userDto, DoctorDto, LoginDto } from './auth.dto';
 import * as argon from 'argon2';
 import { UserRole } from 'src/types';
+import { TokenService } from 'src/providers/tokens/token.service';
 
 @Injectable({})
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private tokenService: TokenService,
+  ) {}
 
   // login
   async SignIn(body: LoginDto) {
@@ -23,14 +27,15 @@ export class AuthService {
       if (!passwordMatch) {
         throw new ForbiddenException('Wrong password');
       }
-      return user;
+      return {
+        accessToken: await this.tokenService.signToken(
+          user.identifier,
+          user.role,
+        ),
+      };
     } catch (error) {
       throw error;
     }
-  }
-
-  async signOut() {
-    return 'signOut';
   }
 
   // Register doctors
@@ -90,5 +95,9 @@ export class AuthService {
         throw error;
       }
     }
+  }
+
+  async signOut() {
+    return 'signOut';
   }
 }
