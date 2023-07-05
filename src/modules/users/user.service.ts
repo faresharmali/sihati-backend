@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserRole } from 'src/types';
+import { UserPayload, UserRole } from 'src/types';
+import { DoctorSelectingCriteria } from 'src/constants';
 @Injectable()
 export class UserService {
   constructor(private prisma: PrismaService) {}
-  async getCurrentUser(user) {
+  async getCurrentUser(user: UserPayload) {
     try {
       const currentUser = await this.prisma.user.findUnique({
         where: {
           identifier: user.id,
         },
       });
+      delete currentUser.password;
+      delete currentUser.id;
       return currentUser;
     } catch (error) {
       throw error;
@@ -24,16 +27,7 @@ export class UserService {
           role: UserRole.DOCTOR,
         },
         select: {
-          name: true,
-          phone: true,
-          identifier: true,
-          createdAt: true,
-          Doctor: {
-            select: {
-              specialization: true,
-              address: true,
-            },
-          },
+          ...DoctorSelectingCriteria,
         },
       });
       return doctors;
@@ -48,16 +42,7 @@ export class UserService {
           identifier: id,
         },
         select: {
-          name: true,
-          phone: true,
-          identifier: true,
-          createdAt: true,
-          Doctor: {
-            select: {
-              specialization: true,
-              address: true,
-            },
-          },
+          ...DoctorSelectingCriteria,
         },
       });
       return doctor;

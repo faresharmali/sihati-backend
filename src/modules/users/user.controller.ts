@@ -2,14 +2,14 @@ import { Controller, Get, Req, UseGuards, Param } from '@nestjs/common';
 import { Request } from 'express';
 import { UserService } from './user.service';
 import { JwtGuard } from 'src/guards/jwt.guard';
+import { UserPayload } from 'src/types';
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
   @UseGuards(JwtGuard)
   @Get('/me')
   async getCurrentUser(@Req() req: Request) {
-    this.userService.getCurrentUser(req.user);
-    return 'me';
+    return await this.userService.getCurrentUser(req.user as UserPayload);
   }
   @UseGuards(JwtGuard)
   @Get('/doctors')
