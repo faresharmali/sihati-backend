@@ -15,8 +15,8 @@ export class AuthController {
     return this.authService.SignIn(dto);
   }
   @Post('signup-patient')
-  signUpPatient() {
-    console.log('signup-patient');
+  signUpPatient(@Body() dto: userDto) {
+    return this.authService.signUpPatient(dto);
   }
   @Post('signup-doctor')
   signUpDoctor(@Body() dto: DoctorDto) {

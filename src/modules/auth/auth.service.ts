@@ -14,6 +14,7 @@ export class AuthService {
 
   // login
   async SignIn(body: LoginDto) {
+    console.log('sign in', body);
     try {
       const user = await this.prisma.user.findUnique({
         where: {
@@ -41,8 +42,17 @@ export class AuthService {
   // Register doctors
 
   async signUpDoctor(body: DoctorDto) {
-    const hashedPassword = await argon.hash(body.password);
+    console.log('sign up doctor', body);
     try {
+      const userInDB = await this.prisma.user.findUnique({
+        where: {
+          email: body.email,
+        },
+      });
+      if (userInDB) {
+        throw new ForbiddenException('Email already exists');
+      }
+      const hashedPassword = await argon.hash(body.password);
       const user = await this.prisma.user.create({
         data: {
           email: body.email,
@@ -75,8 +85,17 @@ export class AuthService {
   // Register patients
 
   async signUpPatient(body: userDto) {
-    const hashedPassword = await argon.hash(body.password);
+    console.log('sign up patient', body.name);
     try {
+      const userInDB = await this.prisma.user.findUnique({
+        where: {
+          email: body.email,
+        },
+      });
+      if (userInDB) {
+        throw new ForbiddenException('Email already exists');
+      }
+      const hashedPassword = await argon.hash(body.password);
       const user = await this.prisma.user.create({
         data: {
           email: body.email,
