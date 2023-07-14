@@ -18,3 +18,10 @@ export interface UserPayload {
   iat: number;
   exp: number;
 }
+
+export interface Appointement {
+  date: Date;
+  doctorId: string;
+  patientId: string;
+  createdAt: Date;
+}

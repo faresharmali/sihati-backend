@@ -11,21 +11,36 @@ datasource db {
 }
 
 model User {
-  id         Bytes    @id @default(auto()) @map("_id") @db.ObjectId
-  identifier String   @unique @default(uuid())
-  name       String
-  password   String
-  role       String
-  phone      String   @unique
-  createdAt  DateTime @default(now())
-  Doctor     Doctor?
+  id           Bytes          @id @default(auto()) @map("_id") @db.ObjectId
+  identifier   String         @unique @default(uuid())
+  name         String
+  password     String
+  role         String
+  phone        String         @unique
+  createdAt    DateTime       @default(now())
+  email        String         @unique
+  Doctor       Doctor?
+  Appointement Appointement[]
 }
 
 model Doctor {
-  id             Bytes    @id @default(auto()) @map("_id") @db.ObjectId
-  userId         Bytes    @unique @db.ObjectId
-  user           User     @relation(fields: [userId], references: [id])
+  id             Bytes          @id @default(auto()) @map("_id") @db.ObjectId
+  identifier     String         @unique @default(uuid())
+  userId         Bytes          @unique @db.ObjectId
+  user           User           @relation(fields: [userId], references: [id])
   address        String
   specialization String
-  createdAt      DateTime @default(now())
+  createdAt      DateTime       @default(now())
+  Appointement   Appointement[]
+}
+
+model Appointement {
+  id        Bytes    @id @default(auto()) @map("_id") @db.ObjectId
+  doctorId  String
+  doctor    Doctor   @relation(fields: [doctorId], references: [identifier])
+  patientId String
+  patient   User     @relation(fields: [patientId], references: [identifier])
+  date      String
+  timeIndex Int
+  createdAt DateTime @default(now())
 }

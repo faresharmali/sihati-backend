@@ -14,7 +14,6 @@ export class AuthService {
 
   // login
   async SignIn(body: LoginDto) {
-    console.log('sign in', body);
     try {
       const user = await this.prisma.user.findUnique({
         where: {
@@ -28,11 +27,12 @@ export class AuthService {
       if (!passwordMatch) {
         throw new ForbiddenException('Wrong password');
       }
+      const data = { ...user };
+      delete data.password;
+
       return {
-        accessToken: await this.tokenService.signToken(
-          user.identifier,
-          user.role,
-        ),
+        ...data,
+        token: await this.tokenService.signToken(data.identifier, data.role),
       };
     } catch (error) {
       throw error;

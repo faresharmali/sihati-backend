@@ -10,6 +10,6 @@ export class TokenService {
       id: id,
       role: role,
     };
-    return this.jwt.signAsync(payload, { expiresIn: '15m' });
+    return this.jwt.signAsync(payload, { expiresIn: '60d' });
   }
 }

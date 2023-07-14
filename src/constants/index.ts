@@ -8,6 +8,7 @@ export const DoctorSelectingCriteria = {
     select: {
       specialization: true,
       address: true,
+      identifier: true,
     },
   },
 };
