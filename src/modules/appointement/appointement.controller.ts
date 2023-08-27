@@ -17,8 +17,15 @@ export class AppointementController {
   constructor(private appointementService: AppointementService) {}
   @UseGuards(JwtGuard)
   @Get('/doctor/:id')
-  async getCurrentUser(@Param() param: { id: string }) {
+  async getDoctorAppointements(@Param() param: { id: string }) {
     return await this.appointementService.getDoctorAppointement(param.id);
+  }
+  @Get('/doctor/free/:id/:date')
+  async getDoctorFeeTime(@Param() param: { id: string; date: string }) {
+    return await this.appointementService.getDoctorFreeAppointements(
+      param.id,
+      param.date,
+    );
   }
 
   @UseGuards(JwtGuard)

@@ -8,9 +8,9 @@ export class AppointementService {
   constructor(private prisma: PrismaService) {}
 
   timeSlots() {
-    let slots: any = [];
-    let start = 8;
-    let end = 16;
+    const slots: any = [];
+    const start = 8;
+    const end = 16;
     for (let i = start; i < end; i++) {
       slots.push(`${i}:00 - ${i}:30`);
       slots.push(`${i}:30 - ${i + 1}:00`);
@@ -75,6 +75,33 @@ export class AppointementService {
         },
       });
       return appointements;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getDoctorFreeAppointements(id: string, date: string) {
+    try {
+      const appointements = await this.prisma.appointement.findMany({
+        where: {
+          date: date,
+          doctorId: id,
+        },
+      });
+
+      if (!appointements.length) return this.times;
+      const freeAppointements = this.times
+        .filter(
+          (item, index) =>
+            !appointements.map((a) => a.timeIndex).includes(index),
+        )
+        .map((item, index) => index);
+      console.log(
+        'freeAppointements',
+        appointements.map((a) => a.timeIndex),
+      );
+      console.log('freeAppointements', freeAppointements);
+      return freeAppointements;
     } catch (error) {
       throw error;
     }
