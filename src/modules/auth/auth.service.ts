@@ -19,6 +19,9 @@ export class AuthService {
         where: {
           email: body.email,
         },
+        include: {
+          Doctor: true,
+        },
       });
       if (!user) {
         throw new ForbiddenException('User not found');

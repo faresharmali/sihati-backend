@@ -91,12 +91,9 @@ export class AppointementService {
       });
 
       if (!appointements.length) return this.times;
-      const freeAppointements = this.times
-        .filter(
-          (item, index) =>
-            !appointements.map((a) => a.timeIndex).includes(index),
-        )
-        .map((item, index) => index);
+      const freeAppointements = this.times.filter(
+        (item, index) => !appointements.map((a) => a.timeIndex).includes(index),
+      );
       console.log(
         'freeAppointements',
         appointements.map((a) => a.timeIndex),
