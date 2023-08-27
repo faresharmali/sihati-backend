@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { UserPayload, UserRole } from 'src/types';
+import { UserPayload, UserRole } from '../../types';
 import { DoctorSelectingCriteria } from 'src/constants';
 @Injectable()
 export class UserService {

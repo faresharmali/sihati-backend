@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { userDto, DoctorDto, LoginDto } from './auth.dto';
 import * as argon from 'argon2';
-import { UserRole } from 'src/types';
+import { UserRole } from '../../types';
 import { TokenService } from 'src/providers/tokens/token.service';
 
 @Injectable({})

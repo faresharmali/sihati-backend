@@ -11,7 +11,7 @@ import { Request } from 'express';
 import { JwtGuard } from 'src/guards/jwt.guard';
 import { AppointementService } from './appointement.service';
 import { AppointementDto } from './appointement.dto';
-import { UserPayload } from 'src/types';
+import { UserPayload } from '../../types';
 @Controller('appointement')
 export class AppointementController {
   constructor(private appointementService: AppointementService) {}
