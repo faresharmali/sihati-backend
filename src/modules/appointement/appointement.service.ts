@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { Appointement, UserPayload, UserRole } from '../../types';
-import { DoctorSelectingCriteria } from 'src/constants';
+import { DoctorSelectingCriteria } from '../../constants';
 import { AppointementDto } from './appointement.dto';
 @Injectable()
 export class AppointementService {
