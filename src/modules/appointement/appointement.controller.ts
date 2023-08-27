@@ -8,7 +8,7 @@ import {
   Param,
 } from '@nestjs/common';
 import { Request } from 'express';
-import { JwtGuard } from 'src/guards/jwt.guard';
+import { JwtGuard } from '../../guards/jwt.guard';
 import { AppointementService } from './appointement.service';
 import { AppointementDto } from './appointement.dto';
 import { UserPayload } from '../../types';
