@@ -33,6 +33,7 @@ export class AppointementService {
     }
   }
   async getDoctorAppointement(id: string) {
+    console.log('getDoctorAppointement', id);
     try {
       const appointements = await this.prisma.appointement.findMany({
         where: {

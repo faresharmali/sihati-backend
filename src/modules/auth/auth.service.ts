@@ -14,14 +14,12 @@ export class AuthService {
 
   // login
   async SignIn(body: LoginDto) {
-    console.log('sign in', body);
     try {
       const user = await this.prisma.user.findUnique({
         where: {
           email: body.email,
         },
       });
-      console.log('user', user);
       if (!user) {
         throw new ForbiddenException('User not found');
       }
@@ -75,7 +73,6 @@ export class AuthService {
 
       return { user, doctor };
     } catch (error) {
-      console.log('error', error);
       if (error.code === 'P2002') {
         throw new ForbiddenException('Email already exists');
       } else {
