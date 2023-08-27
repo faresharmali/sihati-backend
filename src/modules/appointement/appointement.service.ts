@@ -33,7 +33,6 @@ export class AppointementService {
     }
   }
   async getDoctorAppointement(id: string) {
-    console.log('getDoctorAppointement', id);
     try {
       const appointements = await this.prisma.appointement.findMany({
         where: {
@@ -41,6 +40,11 @@ export class AppointementService {
         },
         include: {
           patient: true,
+          doctor: {
+            include: {
+              user: true,
+            },
+          },
         },
       });
       return appointements;
@@ -72,7 +76,11 @@ export class AppointementService {
           patientId: user.id,
         },
         include: {
-          doctor: true,
+          doctor: {
+            include: {
+              user: true,
+            },
+          },
         },
       });
       return appointements;
